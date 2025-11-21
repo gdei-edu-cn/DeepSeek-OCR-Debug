@@ -1,0 +1,31 @@
+# Python cache and artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE / editor configs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Data and large assets
+data/
+runs/
+assets/
+3rdparty/
+
+# Environment / secrets
+.env
+venv/
+.python-version
+
+# Misc large binaries & personal configs
+*.log
+*.tmp
+
