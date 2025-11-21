@@ -1,3 +1,10 @@
+import sys
+import os
+# 动态计算项目根目录 (scripts/xx/xx.py -> ../../ -> root)
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -31,4 +38,6 @@ for bars in (bars64, bars100):
                     ha="center", va="bottom", fontsize=8)
 
 fig.tight_layout()
-plt.savefig("fox100_error_types.png", dpi=300)
+out_path = os.path.join(PROJECT_ROOT, "results", "figures", "fox100_error_types.png")
+os.makedirs(os.path.dirname(out_path), exist_ok=True)
+plt.savefig(out_path, dpi=300)

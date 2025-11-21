@@ -52,3 +52,4 @@ def normalize_text(s: str) -> str:
     s = s.strip()
 
     return s
+

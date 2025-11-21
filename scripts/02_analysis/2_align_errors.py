@@ -1,13 +1,18 @@
 # 生成 errors.jsonl 的对齐脚本
 
 # align_fox100_errors.py
+import sys
 import os
+# 动态计算项目根目录 (scripts/xx/xx.py -> ../../ -> root)
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 import json
-import re
-from text_normalize import normalize_text  # 使用统一的规范化函数
+
+from src.normalization import normalize_text  # 使用统一的规范化函数
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = SCRIPT_DIR
 
 FOX_DIR = os.path.join(PROJECT_ROOT, "data", "Fox")
 EXP_DIR = os.path.join(FOX_DIR, "exp_fox100")

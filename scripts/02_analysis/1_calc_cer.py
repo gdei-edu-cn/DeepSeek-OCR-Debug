@@ -1,15 +1,20 @@
 # 这是为了评估 Fox-100 数据集的两组推理配置：vt64 和 vt100 的字符级错误率（CER），输出每页统计和整体 CER
 # 计算 CER 的脚本
+import sys
 import os
+# 动态计算项目根目录 (scripts/xx/xx.py -> ../../ -> root)
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 import json
-import re
-from text_normalize import normalize_text   # 导入文本规范化函数
+
+from src.normalization import normalize_text   # 导入文本规范化函数
 
 
 # ========== 0. 路径设置（根据你现在的目录结构） ==========
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = SCRIPT_DIR
 
 FOX_DIR = os.path.join(PROJECT_ROOT, "data", "Fox")
 EXP_DIR = os.path.join(FOX_DIR, "exp_fox100")

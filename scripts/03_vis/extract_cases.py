@@ -1,18 +1,22 @@
 # sample_fox100_cases.py
+import sys
 import os
+# 动态计算项目根目录 (scripts/xx/xx.py -> ../../ -> root)
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 import json
 import random
+
+from src.metrics import CRITICAL_TYPES
 
 random.seed(42)
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-EXP_DIR = os.path.join(SCRIPT_DIR, "data", "Fox", "exp_fox100")
-
-CRIT_TYPES = {
-    "number", "number+unit", "money", "date",
-    "negation", "comparator", "math_symbol",
-}
+FOX_DIR = os.path.join(PROJECT_ROOT, "data", "Fox")
+EXP_DIR = os.path.join(FOX_DIR, "exp_fox100")
 
 def load_typed_errors(path):
     errors = []
@@ -32,8 +36,8 @@ def main():
     vt100_errs = load_typed_errors(vt100_path)
 
     # 只要关键类型
-    vt64_crit = [e for e in vt64_errs if e.get("type") in CRIT_TYPES]
-    vt100_crit = [e for e in vt100_errs if e.get("type") in CRIT_TYPES]
+    vt64_crit = [e for e in vt64_errs if e.get("type") in CRITICAL_TYPES]
+    vt100_crit = [e for e in vt100_errs if e.get("type") in CRITICAL_TYPES]
 
     print("vt64 关键错误数:", len(vt64_crit))
     print("vt100 关键错误数:", len(vt100_crit))

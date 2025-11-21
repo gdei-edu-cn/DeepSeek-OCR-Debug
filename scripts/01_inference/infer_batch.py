@@ -2,13 +2,18 @@
 # 推理脚本
 import sys
 import os
+# 动态计算项目根目录 (scripts/xx/xx.py -> ../../ -> root)
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 import json
 import torch
 
 # ========== 0. 设置工作目录 ==========
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(script_dir)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+os.chdir(SCRIPT_DIR)
 print(f"✅ 工作目录已设置为: {os.getcwd()}")
 
 # ========== 1. 离线模式（和你原来一样） ==========
@@ -18,15 +23,14 @@ os.environ["HF_HUB_OFFLINE"] = "1"
 
 # ========== 2. 加入本地包路径（让 deepseek_ocr 能 import 到） ==========
 
-sys.path.insert(0, "/newdata/home/liangweitang/Desktop/DeepSeek-OCR-debug/3rdparty")
+THIRDPARTY_DIR = os.path.join(PROJECT_ROOT, "3rdparty")
+if THIRDPARTY_DIR not in sys.path:
+    sys.path.insert(0, THIRDPARTY_DIR)
 
 from deepseek_ocr.modeling_deepseekocr import DeepseekOCRForCausalLM
 from transformers import AutoConfig, AutoTokenizer
 
 # ========== 3. 路径配置：Fox-100 ==========
-
-# 项目根目录：当前脚本所在目录
-PROJECT_ROOT = script_dir
 
 # Fox 数据目录：data/Fox
 FOX_DIR = os.path.join(PROJECT_ROOT, "data", "Fox")
@@ -50,7 +54,7 @@ def load_local_model():
     """
     使用你本地的 deepseek_ocr 目录加载 tokenizer、config 和 DeepseekOCRForCausalLM 模型
     """
-    model_dir = "/newdata/home/liangweitang/Desktop/DeepSeek-OCR-debug/3rdparty/deepseek_ocr"
+    model_dir = os.path.join(PROJECT_ROOT, "3rdparty", "deepseek_ocr")
 
     print(f"🔄 正在从本地加载 tokenizer 和 config: {model_dir}")
     tokenizer = AutoTokenizer.from_pretrained(

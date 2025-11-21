@@ -1,10 +1,17 @@
 # summ_fox100_error_types.py
+import sys
 import os
+# 动态计算项目根目录 (scripts/xx/xx.py -> ../../ -> root)
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 import json
 from collections import Counter
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-EXP_DIR = os.path.join(SCRIPT_DIR, "data", "Fox", "exp_fox100")
+FOX_DIR = os.path.join(PROJECT_ROOT, "data", "Fox")
+EXP_DIR = os.path.join(FOX_DIR, "exp_fox100")
 
 def load_typed_error_counts(path):
     cnt = Counter()
