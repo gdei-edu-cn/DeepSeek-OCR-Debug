@@ -1,3 +1,5 @@
+# taxonomy.py 提供 guess_type()，用增强正则把 token 判成日期/货币/数字等类别；
+
 import re
 
 NEG_WORDS = {"not", "no", "never", "none", "cannot", "can't", "n't"}
